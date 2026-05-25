@@ -399,7 +399,17 @@ function initContentScript() {
 
   chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
     if (msg && msg.type === "TRANSLATE") {
-      handleTranslate(msg.text || "");
+      // 优先从页面真实选区取文本：info.selectionText 会把段落间 \n\n 折叠成单 \n
+      // 甚至空格，丢失原文结构。getSelection().toString() 保留换行更准确。
+      let text = "";
+      try {
+        const sel = window.getSelection();
+        if (sel && sel.rangeCount > 0 && !sel.isCollapsed) {
+          text = sel.toString();
+        }
+      } catch (_) {}
+      if (!text || !text.trim()) text = msg.text || "";
+      handleTranslate(text);
       sendResponse({ ok: true });
     }
     return false;
