@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>LLM Translate · 设置</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <h1>LLM Translate 设置</h1>
+      <p class="hint">
+        在这里配置用于翻译的 LLM。支持
+        <strong>OpenAI 兼容</strong> 协议（<code>/chat/completions</code>）和
+        <strong>Anthropic 原生</strong> 协议（<code>/v1/messages</code>）。
+      </p>
+
+      <form id="form">
+        <label>
+          <span>协议</span>
+          <select name="protocol" id="protocol">
+            <option value="openai">OpenAI 兼容</option>
+            <option value="anthropic">Anthropic 原生</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Base URL</span>
+          <input
+            type="text"
+            name="baseUrl"
+            id="baseUrl"
+            placeholder="https://your-gateway.example.com/v1"
+            autocomplete="off"
+          />
+          <small>
+            OpenAI 兼容协议会请求 <code>{baseUrl}/chat/completions</code>；
+            Anthropic 协议会请求 <code>{baseUrl}/v1/messages</code>。
+            填写到根路径即可（不要带末尾 <code>/chat/completions</code>）。
+          </small>
+        </label>
+
+        <label>
+          <span>API Key</span>
+          <input
+            type="password"
+            name="apiKey"
+            id="apiKey"
+            placeholder="sk-..."
+            autocomplete="off"
+          />
+        </label>
+
+        <label>
+          <span>模型名</span>
+          <input
+            type="text"
+            name="model"
+            id="model"
+            placeholder="例如 gpt-4o / claude-sonnet-4-5-20250929"
+            autocomplete="off"
+          />
+        </label>
+
+        <label>
+          <span>System Prompt</span>
+          <textarea name="systemPrompt" id="systemPrompt" rows="6"></textarea>
+        </label>
+
+        <div class="row">
+          <label class="col">
+            <span>max_tokens（仅 Anthropic）</span>
+            <input
+              type="number"
+              name="maxTokens"
+              id="maxTokens"
+              min="1"
+              step="1"
+              placeholder="4096"
+            />
+          </label>
+
+          <label class="col">
+            <span>temperature（可选，留空不传）</span>
+            <input
+              type="number"
+              name="temperature"
+              id="temperature"
+              min="0"
+              max="2"
+              step="0.1"
+              placeholder=""
+            />
+          </label>
+        </div>
+
+        <label>
+          <span>Extra Body（可选 JSON，会合并到 OpenAI 请求 body 顶层）</span>
+          <textarea
+            name="extraBodyJson"
+            id="extraBodyJson"
+            rows="3"
+            placeholder='例如 {"enable_thinking": false}'
+          ></textarea>
+        </label>
+
+        <div class="actions">
+          <button type="submit" id="save" class="primary">保存</button>
+          <button type="button" id="test">测试连接</button>
+          <span id="status" class="status"></span>
+        </div>
+      </form>
+
+      <section class="test-output" id="testOutput" hidden>
+        <h2>测试输出</h2>
+        <pre id="testOutputBody"></pre>
+      </section>
+    </main>
+
+    <script src="translate.js"></script>
+    <script src="options.js"></script>
+  </body>
+</html>

@@ -1,0 +1,37 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# 编辑器 / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 工具与会话本地状态（不应入库）
+.claude/
+.baidu-cc/
+
+# 日志与临时文件
+*.log
+*.tmp
+*.bak
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 依赖与构建产物（当前项目不需要构建，但作兜底）
+node_modules/
+dist/
+build/
+*.zip
+*.crx
+*.pem
+
+# 环境变量
+.env
+.env.local
+.env.*.local
